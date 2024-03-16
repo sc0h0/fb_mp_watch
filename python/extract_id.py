@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 import os
 import re
+import csv
 
 def login_to_facebook(page, email, password):
     # Check if the login prompt is present
@@ -91,14 +92,18 @@ def run(playwright, log_file):
     # Use Playwright to evaluate JavaScript in the context of the page to get all 'a' tags
     a_tags = page.query_selector_all('a')
 
-    # Open a text file to write the extracted IDs
-    with open('extracted_ids.txt', 'w') as file:
+    with open('data/extracted_ids.csv', 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        
+        # Write a header row if desired
+        csvwriter.writerow(['id'])
+        
         for tag in a_tags:
             href = tag.get_attribute('href')
             match = url_pattern.search(href)
             if match:
-                # If the URL matches the pattern, write the numeric part to the file
-                file.write(match.group(1) + '\n')
+                # If the URL matches the pattern, write the numeric part to the CSV file
+                csvwriter.writerow([match.group(1)])
 
     log_file.write("Extracted IDs have been saved to extracted_ids.txt.\n")
 
