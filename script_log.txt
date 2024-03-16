@@ -1,3 +1,6 @@
+Logging all text input fields found on the page:
+Input Field - Name: email, ID: email, Class: inputtext _55r1 inputtext _1kbt inputtext _1kbt
+Input Field - Name: pass, ID: pass, Class: inputtext _55r1 inputtext _9npi inputtext _9npi
 Screenshot 1 saved.
 Screenshot 2 saved.
 Extracted IDs have been saved to extracted_ids.txt.
