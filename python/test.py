@@ -2,7 +2,7 @@ from playwright.sync_api import sync_playwright
 import re
 
 def run(playwright):
-    browser = playwright.chromium.launch(headless=False)  # Set headless=False if you want to see the browser UI
+    browser = playwright.chromium.launch(headless=True)  # Set headless=False if you want to see the browser UI
     context = browser.new_context()
     
     # Open new page
