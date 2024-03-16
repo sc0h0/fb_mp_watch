@@ -1,4 +1,5 @@
 import csv
+from playwright.sync_api import sync_playwright
 
 def login_to_facebook(page, email, password):
     # Check if the login prompt is present
