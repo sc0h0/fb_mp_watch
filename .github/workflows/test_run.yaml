@@ -1,10 +1,10 @@
-name: Run Python Script, Capture Screenshots, and Save IDs
+name: Run Python Script, Capture Screenshots, Save IDs, and Commit Results
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-and-capture:
+  run-commit-capture:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,28 +23,12 @@ jobs:
         playwright install
 
     - name: Run the script
-      run: python python/test.py  # Updated path to your Python script
+      run: python python/test.py
 
-    - name: Upload Screenshot 1
-      uses: actions/upload-artifact@v2
-      with:
-        name: screenshot1
-        path: screenshot1.png
-
-    - name: Upload Screenshot 2
-      uses: actions/upload-artifact@v2
-      with:
-        name: screenshot2
-        path: screenshot2.png
-
-    - name: Upload Extracted IDs
-      uses: actions/upload-artifact@v2
-      with:
-        name: extracted-ids
-        path: extracted_ids.txt
-
-    - name: Upload Log File
-      uses: actions/upload-artifact@v2
-      with:
-        name: script-log
-        path: script_log.txt
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git add screenshot1.png screenshot2.png extracted_ids.txt script_log.txt
+        git commit -m "Add script outputs and logs" || echo "No changes to commit"
+        git push
