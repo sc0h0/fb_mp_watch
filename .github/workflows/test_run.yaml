@@ -23,6 +23,9 @@ jobs:
         playwright install
 
     - name: Run the script
+      env:
+        FB_EMAIL: ${{ secrets.FB_EMAIL }}
+        FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
       run: python python/test.py
 
     - name: Commit and push changes
