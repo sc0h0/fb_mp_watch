@@ -23,7 +23,7 @@ jobs:
         playwright install chromium
 
     - name: Run the script
-      run: python path/to/your_script.py
+      run: python python/test.py
 
     - name: Commit extracted_ids.txt
       run: |
