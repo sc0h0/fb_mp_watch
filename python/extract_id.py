@@ -37,6 +37,26 @@ def log_input_fields(page, log_file):
             log_file.write(f"Input Field - Name: {input_name}, ID: {input_id}, Class: {input_class}\n")
 
 
+# Function to scroll to the bottom of the page
+def scroll_to_bottom(page):
+    # Get the current scroll height
+    last_height = page.evaluate("document.body.scrollHeight")
+
+    while True:
+        # Scroll to the bottom of the page
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+
+        # Wait for the page to load more content
+        page.wait_for_timeout(2000)  # Adjust the timeout as needed
+
+        # Calculate the new scroll height and compare it with the last scroll height
+        new_height = page.evaluate("document.body.scrollHeight")
+        if new_height == last_height:
+            # If the scroll height hasn't changed, we are at the bottom of the page
+            break
+        last_height = new_height
+
+
 def run(playwright, log_file):
     fb_email = os.environ['FB_EMAIL']
     fb_password = os.environ['FB_PASSWORD']
@@ -53,6 +73,8 @@ def run(playwright, log_file):
     #log_input_fields(page, log_file)
 
     page.wait_for_timeout(5000) 
+
+    scroll_to_bottom(page)
 
     page.screenshot(path='screenshot1.png')
     log_file.write("Screenshot 1 saved.\n")
