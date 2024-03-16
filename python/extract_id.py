@@ -46,8 +46,8 @@ def scroll_to_bottom(page):
         # Scroll to the bottom of the page
         page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
 
-        # it's slow to load, give it 10s
-        page.wait_for_timeout(10000)  # Adjust the timeout as needed
+        # it's slow to load, give it 5s
+        page.wait_for_timeout(5000)  # Adjust the timeout as needed
 
         # Calculate the new scroll height and compare it with the last scroll height
         new_height = page.evaluate("document.body.scrollHeight")
