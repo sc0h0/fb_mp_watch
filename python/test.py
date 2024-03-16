@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-import re
+import os
 
 def login_to_facebook(page, email, password):
     # Check if the login prompt is present
