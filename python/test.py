@@ -11,8 +11,12 @@ def run(playwright):
     # Go to the URL
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange&exact=false')
 
+    await page.screenshot(path='screenshot1.png')
+
     # Wait for the content to load; adjust the wait time as necessary
     page.wait_for_timeout(10000)  # 10 seconds
+
+    await page.screenshot(path='screenshot2.png')
 
     # Regular expression to match the desired URL pattern
     url_pattern = re.compile(r'/marketplace/item/(\d+)')
