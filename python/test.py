@@ -6,12 +6,17 @@ def login_to_facebook(page, email, password):
     # Check if the login prompt is present
     login_prompt = page.query_selector("text=/log in to continue/i")
     if login_prompt:
-        # Fill in the login form
-        page.fill('input[name="Email or phone number"]', email)
-        page.fill('input[name="Password"]', password)
+        # Fill in the login form using the ID of the input fields
+        page.fill('input#email', email)  # Using the ID selector for the email input field
+        page.fill('input#pass', password)  # Using the ID selector for the password input field
 
-        # Click the login button
-        page.click('button[name="Log In"]')
+        # Attempt to find and click the login button. Adjust the selector as needed.
+        login_button = page.query_selector('button[name="login"]')
+        if login_button:
+            login_button.click()
+        else:
+            # Log or handle the case where the login button wasn't found
+            print("Login button not found.")
 
 def log_input_fields(page, log_file):
     # Find all input elements on the page
@@ -44,8 +49,8 @@ def run(playwright, log_file):
     # Go to the URL
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange&exact=false')
 
-    #login_to_facebook(page, fb_email, fb_password)
-    log_input_fields(page, log_file)
+    login_to_facebook(page, fb_email, fb_password)
+    #log_input_fields(page, log_file)
 
     page.wait_for_timeout(5000) 
 
