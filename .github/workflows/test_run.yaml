@@ -1,10 +1,10 @@
-name: Run Python Script and Commit Results
+name: Run Python Script, Capture Screenshots, and Save IDs
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-script-and-commit:
+  run-and-capture:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,21 +20,25 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install playwright
-        playwright install chromium
+        playwright install
 
     - name: Run the script
-      run: python python/test.py
+      run: python path/to/your_script.py
 
-    - name: Commit extracted_ids.txt
-      run: |
-        git config --global user.name 'GitHub Actions Bot'
-        git config --global user.email 'actions@github.com'
-        git add extracted_ids.txt
-        git commit -m "Update extracted IDs" -a || echo "No changes to commit"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    - name: Upload Screenshot 1
+      uses: actions/upload-artifact@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+        name: screenshot1
+        path: screenshot1.png
 
+    - name: Upload Screenshot 2
+      uses: actions/upload-artifact@v2
+      with:
+        name: screenshot2
+        path: screenshot2.png
+
+    - name: Upload Extracted IDs
+      uses: actions/upload-artifact@v2
+      with:
+        name: extracted-ids
+        path: extracted_ids.txt
