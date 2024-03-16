@@ -24,12 +24,15 @@ def navigate_to_listings(page, listings_csv, log_file):
     with open(listings_csv, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            listing_id = row['id']  # Assuming the column name in your CSV is 'id'
+            listing_id = row['id']
             full_url = base_url + listing_id
             log_file.write(f'Navigating to {full_url}\n')
-            page.goto(full_url)
-            # Here you might add actions to perform on each listing page, like scraping data or taking screenshots
-            page.wait_for_timeout(3000)  # Adjust the timeout as necessary
+            try:
+                page.goto(full_url)
+                # Additional actions here
+                page.wait_for_timeout(3000)
+            except Exception as e:
+                log_file.write(f'Failed to navigate to {full_url}: {e}\n')
 
 
 def run(playwright, log_file):
