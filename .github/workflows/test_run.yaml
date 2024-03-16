@@ -23,7 +23,7 @@ jobs:
         playwright install
 
     - name: Run the script
-      run: python path/to/your_script.py
+      run: python python/test.py  # Updated path to your Python script
 
     - name: Upload Screenshot 1
       uses: actions/upload-artifact@v2
