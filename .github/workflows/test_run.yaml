@@ -40,6 +40,6 @@ jobs:
       run: |
         git config --global user.name 'GitHub Actions Bot'
         git config --global user.email 'actions@github.com'
-        git add screenshot1.png screenshot2.png extracted_ids.txt script_log.txt
+        git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
         git push
