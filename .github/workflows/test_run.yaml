@@ -42,3 +42,9 @@ jobs:
       with:
         name: extracted-ids
         path: extracted_ids.txt
+
+    - name: Upload Log File
+      uses: actions/upload-artifact@v2
+      with:
+        name: script-log
+        path: script_log.txt
