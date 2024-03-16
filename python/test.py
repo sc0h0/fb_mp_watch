@@ -7,14 +7,12 @@ def login_to_facebook(page, email, password):
     login_prompt = page.query_selector("text=/log in to continue/i")
     if login_prompt:
         # Fill in the login form
-        page.fill('input[name="email"]', email)
-        page.fill('input[name="pass"]', password)
+        page.fill('input[name="Email or phone number"]', email)
+        page.fill('input[name="Password"]', password)
 
         # Click the login button
-        page.click('button[name="login"]')
+        page.click('button[name="Log In"]')
 
-        # Wait for navigation to ensure the login process completes
-        page.wait_for_navigation()
 
 def run(playwright, log_file):
     fb_email = os.environ['FB_EMAIL']
