@@ -13,6 +13,24 @@ def login_to_facebook(page, email, password):
         # Click the login button
         page.click('button[name="Log In"]')
 
+def log_input_fields(page, log_file):
+    # Find all input elements on the page
+    inputs = page.query_selector_all('input')
+
+    # Log a header for clarity
+    log_file.write("Logging all text input fields found on the page:\n")
+
+    for input_element in inputs:
+        # Check if the input element is a text field
+        if input_element.get_attribute('type') in ['text', 'email', 'password']:
+            # Get useful attributes to uniquely identify the input field
+            input_name = input_element.get_attribute('name')
+            input_id = input_element.get_attribute('id')
+            input_class = input_element.get_attribute('class')
+
+            # Log the details of the input field
+            log_file.write(f"Input Field - Name: {input_name}, ID: {input_id}, Class: {input_class}\n")
+
 
 def run(playwright, log_file):
     fb_email = os.environ['FB_EMAIL']
@@ -26,7 +44,8 @@ def run(playwright, log_file):
     # Go to the URL
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange&exact=false')
 
-    login_to_facebook(page, fb_email, fb_password)
+    #login_to_facebook(page, fb_email, fb_password)
+    log_input_fields(page, log_file)
 
     page.wait_for_timeout(5000) 
 
