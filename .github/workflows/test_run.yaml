@@ -34,7 +34,7 @@ jobs:
       env:
         FB_EMAIL: ${{ secrets.FB_EMAIL }}
         FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
-      run: python python/test.py
+      run: python python/extract_id.py
 
     - name: Commit and push changes
       run: |
