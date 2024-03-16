@@ -1,32 +1,22 @@
-name: Run Python Script on Demand
-
-on:
-  workflow_dispatch:
-
 jobs:
-  run-script:
+  run-script-and-commit:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      
+    # Other steps to set up the environment and run your script go here
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
+    - name: Commit extracted_ids.txt
       run: |
-        python -m pip install --upgrade pip
-        pip install playwright
-        playwright install chromium
-
-    - name: Run the script
-      run: python python/test.py
-
-    - name: Upload Results
-      uses: actions/upload-artifact@v2
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git add extracted_ids.txt
+        git commit -m "Update extracted IDs" -a || echo "No changes to commit"
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-        name: extracted-ids
-        path: extracted_ids.txt
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
