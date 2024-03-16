@@ -1,7 +1,23 @@
 from playwright.sync_api import sync_playwright
 import re
 
+def login_to_facebook(page, email, password):
+    # Check if the login prompt is present
+    login_prompt = page.query_selector("text=/log in to continue/i")
+    if login_prompt:
+        # Fill in the login form
+        page.fill('input[name="email"]', email)
+        page.fill('input[name="pass"]', password)
+
+        # Click the login button
+        page.click('button[name="login"]')
+
+        # Wait for navigation to ensure the login process completes
+        page.wait_for_navigation()
+
 def run(playwright, log_file):
+    fb_email = os.environ['FB_EMAIL']
+    fb_password = os.environ['FB_PASSWORD']
     browser = playwright.chromium.launch(headless=True)
     context = browser.new_context()
     
@@ -11,11 +27,15 @@ def run(playwright, log_file):
     # Go to the URL
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange&exact=false')
 
+    login_to_facebook(page, fb_email, fb_password)
+
+    page.wait_for_timeout(5000) 
+
     page.screenshot(path='screenshot1.png')
     log_file.write("Screenshot 1 saved.\n")
 
     # Wait for the content to load; adjust the wait time as necessary
-    page.wait_for_timeout(10000)  # 10 seconds
+    page.wait_for_timeout(5000) 
 
     page.screenshot(path='screenshot2.png')
     log_file.write("Screenshot 2 saved.\n")
