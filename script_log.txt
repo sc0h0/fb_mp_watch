@@ -1,0 +1,3 @@
+Screenshot 1 saved.
+Screenshot 2 saved.
+Extracted IDs have been saved to extracted_ids.txt.
