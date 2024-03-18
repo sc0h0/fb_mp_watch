@@ -30,21 +30,19 @@ jobs:
         FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
       run: python python/extract_id.py
 
-    - name: Check for changes
-      id: changes
-      run: |
-        if git status --porcelain | grep 'fb_mp_watch/data/extracted_ids.csv'; then
-          echo "::set-output name=changed::true"
-        else
-          echo "::set-output name=changed::false"
-        fi
-
     - name: Commit and push changes
-      if: steps.changes.outputs.changed == 'true'
       run: |
         git config --global user.name 'GitHub Actions Bot'
         git config --global user.email 'actions@github.com'
+        
+        # Staging the file even if there are no changes
         git add fb_mp_watch/data/extracted_ids.csv
-        git commit -m "Update extracted IDs"
+        
+        # Committing. If there are no changes, the commit will not proceed, but the workflow will not fail.
+        git commit -m "Update extracted IDs" || echo "No new changes to commit"
+        
+        # Ensure your local branch is up-to-date with the remote
         git pull --rebase origin main
+        
+        # Pushing changes. If the commit step didn't proceed due to no changes, this push will simply ensure local and remote are synced.
         git push origin main
