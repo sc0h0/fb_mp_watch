@@ -45,10 +45,10 @@ jobs:
         git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
         
-        # Fetch latest history from remote and set up for rebase
-        git fetch origin main
-        git rebase origin/main
+        # Pull the latest changes from the remote, ensuring the local repository is up to date
+        git pull --rebase origin main
         
-        # Now, try to push again
+        # Push the changes to the remote repository
         git push origin main
+
 
