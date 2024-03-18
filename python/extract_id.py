@@ -40,22 +40,33 @@ def log_input_fields(page, log_file):
 
 # Function to scroll to the bottom of the page
 def scroll_to_bottom(page):
-    # Get the current scroll height
-    last_height = page.evaluate("document.body.scrollHeight")
+    try:
+        last_height = page.evaluate("document.body.scrollHeight")
+        while True:
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            
+            # Wait for page load or any possible navigation to complete
+            page.wait_for_timeout(5000)  # Adjust based on your page's load time
 
-    while True:
-        # Scroll to the bottom of the page
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            try:
+                # Use try-except to catch any evaluation errors due to navigation or page changes
+                new_height = page.evaluate("document.body.scrollHeight")
+                if new_height == last_height:
+                    break
+                last_height = new_height
+            except playwright._impl._errors.Error as e:
+                print(f"Error during scroll evaluation: {e}")
+                # If an error occurs, wait a bit and then try to get the new scroll height again
+                page.wait_for_timeout(1000)  # Short wait before retry
+                new_height = page.evaluate("document.body.scrollHeight")
+                if new_height == last_height:
+                    break
+                last_height = new_height
 
-        # it's slow to load, give it 5s
-        page.wait_for_timeout(5000)  # Adjust the timeout as needed
-
-        # Calculate the new scroll height and compare it with the last scroll height
-        new_height = page.evaluate("document.body.scrollHeight")
-        if new_height == last_height:
-            # If the scroll height hasn't changed, we are at the bottom of the page
-            break
-        last_height = new_height
+    except playwright._impl._errors.Error as e:
+        print(f"Encountered an error: {e}")
+        # Handle the error or retry the entire scroll_to_bottom function as needed
+        # Consider adding a retry mechanism or exiting the function if the page context is lost
 
 
 def run(playwright, log_file):
