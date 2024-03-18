@@ -44,13 +44,22 @@ jobs:
         git config --global user.email 'actions@github.com'
         git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
-        
-        # Safely synchronize with the remote branch
+
+        # Fetch the latest changes from the remote
         git fetch origin main
-        git rebase origin/main  # or you can use 'git merge origin/main'
-        
-        # Push the changes, considering using --force-with-lease if necessary
+
+        # Reset local main branch to match the remote's state
+        # This ensures your local branch is up-to-date with the remote
+        git reset --hard origin/main
+
+        # Re-apply your changes on top of the latest remote main branch
+        git cherry-pick ee695ff
+
+        # Push the changes
+        # If conflicts are expected or if you're dealing with protected branches,
+        # consider handling this step with more specific strategies.
         git push origin main
+
 
 
 
