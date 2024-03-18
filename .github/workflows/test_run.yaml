@@ -45,10 +45,12 @@ jobs:
         git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
         
-        # Pull the latest changes from the remote, ensuring the local repository is up to date
-        git pull --rebase origin main
+        # Safely synchronize with the remote branch
+        git fetch origin main
+        git rebase origin/main  # or you can use 'git merge origin/main'
         
-        # Push the changes to the remote repository
+        # Push the changes, considering using --force-with-lease if necessary
         git push origin main
+
 
 
