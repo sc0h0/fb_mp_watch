@@ -9,7 +9,9 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for all branches and tags
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -42,4 +44,5 @@ jobs:
         git config --global user.email 'actions@github.com'
         git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
+        git pull --rebase  # Ensure local repo is up-to-date with remote
         git push
