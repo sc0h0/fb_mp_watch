@@ -56,7 +56,7 @@ jobs:
         git cherry-pick ee695ff
 
         # Push the changes
-        # If conflicts are expected or if you're dealing with protected branches,
+        # If conflicts are expected or if you're dealing with protected branches, a
         # consider handling this step with more specific strategies.
         git push origin main
 
