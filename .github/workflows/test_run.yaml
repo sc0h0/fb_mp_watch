@@ -44,5 +44,11 @@ jobs:
         git config --global user.email 'actions@github.com'
         git add .
         git commit -m "Add script outputs and logs" || echo "No changes to commit"
-        git pull --rebase  # Ensure local repo is up-to-date with remote
-        git push
+        
+        # Fetch latest history from remote and set up for rebase
+        git fetch origin main
+        git rebase origin/main
+        
+        # Now, try to push again
+        git push origin main
+
