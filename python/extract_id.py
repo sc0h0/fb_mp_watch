@@ -16,6 +16,7 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 
 # Define the path to the 'data' directory
 extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
+logging.info("Extracted Folder Path: %s", extracted_folder_path)
 
 
 with sync_playwright() as p:
