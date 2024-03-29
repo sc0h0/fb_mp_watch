@@ -26,7 +26,7 @@ jobs:
           playwright install
 
       - name: Run Python Script
-        run: python -u python/extract_id.py
+        run: python python/extract_id.py
 
       # If you need to publish the results to GitHub
       - uses: mikeal/publish-to-github-action@master
