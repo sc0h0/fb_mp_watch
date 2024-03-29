@@ -2,7 +2,7 @@ name: visit_id
 
 on:
   schedule:
-    - cron:  '0 * * * *' # At minute 0 past every hour.
+    - cron:  '0 2/4 * * *' # At 2am, 6am etc
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 
 jobs:
