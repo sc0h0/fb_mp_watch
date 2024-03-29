@@ -58,7 +58,7 @@ def is_description_heading_about_furniture(description, heading):
 
 def visit_ids_with_playwright(item_ids):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)  # Set headless=True for headless mode
+        browser = p.chromium.launch(headless=True)  # Set headless=True for headless mode
         page = browser.new_page()
 
         page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
