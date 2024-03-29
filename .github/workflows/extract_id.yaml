@@ -2,7 +2,7 @@ name: extract_id
 
 on:
   schedule:
-    - cron:  '0 * * * *' # At minute 0 past every hour.
+    - cron:  '0 0-23/2 * * *' # midnight, 2am, 4am etc
   workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 
 jobs:
