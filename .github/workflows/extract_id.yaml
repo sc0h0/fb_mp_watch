@@ -26,11 +26,7 @@ jobs:
           playwright install
 
       - name: Run Python Script
-        run: |
-          set -x  # Print all executed commands to the terminal
-          python python/extract_id.py
-        env:
-          PYTHONUNBUFFERED: 1  # Ensure Python output is not buffered
+        run: python python/extract_id.py
 
       # If you need to publish the results to GitHub
       - uses: mikeal/publish-to-github-action@master
