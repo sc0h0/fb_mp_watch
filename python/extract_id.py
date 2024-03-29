@@ -3,6 +3,13 @@ import re
 import datetime
 import os
 import pytz
+import logging
+
+logging.info("Script started successfully.")
+
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 # Determine the base path relative to the script's location
 base_path = os.path.dirname(os.path.abspath(__file__))
