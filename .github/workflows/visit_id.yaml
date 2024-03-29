@@ -1,45 +1,38 @@
-name: Run Marketplace Navigation Script
+name: extract_id
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron:  '0 * * * *' # At minute 0 past every hour.
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 
 jobs:
-  navigate-marketplace:
+  run-script:
+    name: Execute Python Script
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      # Setup Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # Specify the Python version you need
 
-    - name: Cache Python dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cache/pip
-          ~/.cache/ms-playwright
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        playwright install
+      - name: Run Python Script
+        run: python python/visit_id.py
+        env:
+          FB_EMAIL: ${{ secrets.FB_EMAIL }}
+          FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
+          CHATGPT_API: ${{ secrets.CHATGPT_API }}
 
-    - name: Run the script to navigate Marketplace listings
-      env:
-        FB_EMAIL: ${{ secrets.FB_EMAIL }}
-        FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
-      run: python python/visit_id.py
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'GitHub Actions Bot'
-        git config --global user.email 'actions@github.com'
-        git add .
-        git commit -m "Update Marketplace navigation outputs" || echo "No changes to commit"
-        git push
+      # If you need to publish the results to GitHub
+      - uses: sc0h0/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
