@@ -41,6 +41,7 @@ with sync_playwright() as p:
         match = url_pattern.search(href)
         if match:
             matched_ids.append(match.group(1))
+            logging.info("match id: %s", match)
 
     # If there are matched IDs, write them to a CSV file
     if matched_ids:
