@@ -1,4 +1,4 @@
-name: Run Python Script
+name: extract_id
 
 on:
   schedule:
