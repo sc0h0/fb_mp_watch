@@ -29,6 +29,6 @@ jobs:
         run: python python/extract_id.py
 
       # If you need to publish the results to GitHub
-      - uses: mikeal/publish-to-github-action@master
+      - uses: sc0h0/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
