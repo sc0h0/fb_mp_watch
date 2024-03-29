@@ -25,6 +25,8 @@ with sync_playwright() as p:
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
     # wait some time for page to load
     page.wait_for_timeout(3000)
+
+    page.screenshot(path='data/extracted_id' + 'screenshot.png')
     
     # Regular expression to match the desired URL pattern
     url_pattern = re.compile(r'/marketplace/item/(\d+)')
