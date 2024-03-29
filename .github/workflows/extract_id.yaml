@@ -27,6 +27,9 @@ jobs:
 
       - name: Run Python Script
         run: python python/extract_id.py
+        env:
+          FB_EMAIL: ${{ secrets.FB_EMAIL }}
+          FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
 
       # If you need to publish the results to GitHub
       - uses: sc0h0/publish-to-github-action@master
