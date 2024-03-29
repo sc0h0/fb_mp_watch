@@ -69,9 +69,6 @@ def visit_ids_with_playwright(item_ids):
         login_button = page.query_selector('button[name="login"]')
         login_button.click()
         page.wait_for_timeout(3000)
-
-    
-        page.screenshot(path='data/extracted_id_visit' + 'screenshot.png')
         
         # initialise a log of visited ids
         visited_ids = set()
