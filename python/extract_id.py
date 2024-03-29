@@ -34,7 +34,7 @@ with sync_playwright() as p:
     login_button = page.query_selector('button[name="login"]')
     login_button.click()
     page.wait_for_timeout(3000)
-     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
+    page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
 
     page.screenshot(path='data/extracted_id' + 'screenshot.png')
     
