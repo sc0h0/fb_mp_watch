@@ -11,10 +11,10 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.info("Script started successfully.")
 
 if os.name == 'posix':
-    # Determine the base path relative to the script's location
-    base_path = os.path.dirname(os.path.abspath(__file__))
-elif os.name == 'nt':
+    # assume github if unix
     base_path = ''
+elif os.name == 'nt':
+    base_path = os.path.dirname(os.path.abspath(__file__))
 
 # Define the path to the 'data' directory
 extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
