@@ -17,6 +17,8 @@ elif os.name == 'nt':
     base_path = os.path.dirname(os.path.abspath(__file__))
     extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
 
+logging.info("Extracted Folder Path: %s", extracted_folder_path)
+
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True, slow_mo=1000)
     page = browser.new_page()
