@@ -3,9 +3,10 @@ import re
 import datetime
 import os
 import pytz
-
-
 import logging
+
+fb_email = os.environ['FB_EMAIL']
+fb_password = os.environ['FB_PASSWORD']
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.info("Script started successfully.")
@@ -19,12 +20,21 @@ elif os.name == 'nt':
 
 logging.info("Extracted Folder Path: %s", extracted_folder_path)
 
+
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True, slow_mo=1000)
     page = browser.new_page()
+    
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
     # wait some time for page to load
     page.wait_for_timeout(3000)
+    login_prompt = page.query_selector("text=/log in to continue/i")
+    page.fill('input#email', email)  # Using the ID selector for the email input field
+    page.fill('input#pass', password)  # Using the ID selector for the password input field
+    login_button = page.query_selector('button[name="login"]')
+    login_button.click()
+    page.wait_for_timeout(3000)
+     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
 
     page.screenshot(path='data/extracted_id' + 'screenshot.png')
     
