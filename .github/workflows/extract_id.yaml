@@ -27,7 +27,7 @@ jobs:
 
       # Run your Python script
       - name: Run Python Script
-        run: python python/visit_id.py # Adjusted to the correct path
+        run: python python/extract_id.py 
 
       # If you need to publish the results to GitHub
       - uses: mikeal/publish-to-github-action@master
