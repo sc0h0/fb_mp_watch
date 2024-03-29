@@ -32,17 +32,23 @@ with sync_playwright() as p:
     # Use Playwright to evaluate JavaScript in the context of the page to get all 'a' tags
     a_tags = page.query_selector_all('a')
     
+    # Initialize an empty list to store the matches
+    matched_ids = []
+
     # Loop through the 'a' tags and extract the href attribute
     for tag in a_tags:
         href = tag.get_attribute('href')
         match = url_pattern.search(href)
         if match:
-            # save to csv in data folder. call the file yyyy-dd-mm-hh-mm-ss_extracted_ids.csv
-            tz_aet = pytz.timezone('Australia/Sydney')  # 'Australia/Sydney' will automatically handle AEST/AEDT
-            now = datetime.datetime.now(tz_aet)
+            matched_ids.append(match.group(1))
 
-            formatted_date = now.strftime("%Y-%d-%m-%H-%M-%S")
-            file_name = os.path.join(extracted_folder_path, f"{formatted_date}_extracted_id.csv")
-            with open( file_name, 'a') as csvfile:
-                csvfile.write(match.group(1) + '\n')
+    # If there are matched IDs, write them to a CSV file
+    if matched_ids:
+        tz_aet = pytz.timezone('Australia/Sydney')
+        now = datetime.datetime.now(tz_aet)  # Ensure 'now' is defined and captures the current time
+        formatted_date = now.strftime("%Y-%d-%m-%H-%M-%S")
+        file_name = os.path.join(extracted_folder_path, f"{formatted_date}_extracted_ids.csv")
+        with open(file_name, 'w') as csvfile:  # Using 'w' to overwrite any existing file or 'a' to append if that's the intention
+            for id in matched_ids:
+                csvfile.write(id + '\n')
             
