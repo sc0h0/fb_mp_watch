@@ -44,6 +44,7 @@ with sync_playwright() as p:
             logging.info("match id: %s", match)
 
     # If there are matched IDs, write them to a CSV file
+    logging.info("matched_ids: %s", matched_ids)
     if matched_ids:
         tz_aet = pytz.timezone('Australia/Sydney')
         now = datetime.datetime.now(tz_aet)  # Ensure 'now' is defined and captures the current time
