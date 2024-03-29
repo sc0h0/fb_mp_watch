@@ -12,14 +12,10 @@ logging.info("Script started successfully.")
 
 if os.name == 'posix':
     # assume github if unix
-    base_path = ''
+    extracted_folder_path = 'data/extracted_id'
 elif os.name == 'nt':
     base_path = os.path.dirname(os.path.abspath(__file__))
-
-# Define the path to the 'data' directory
-extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
-logging.info("Extracted Folder Path: %s", extracted_folder_path)
-
+    extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True, slow_mo=1000)
