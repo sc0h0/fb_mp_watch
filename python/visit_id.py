@@ -32,7 +32,7 @@ def details_are_exclude(details_collected_text):
     text_lower = details_collected_text.lower()
     keywords = ['grange rd', 'grange road', 'near grange', 'grange style', 'grange-style']
     # Check if the lowercase text contains
-    return any(keyword in text for keyword in keywords)
+    return any(keyword in text_lower for keyword in keywords)
     
 def heading_details_keyword(details_collected_text, title_collected_text):
     text_lower = details_collected_text.lower()
