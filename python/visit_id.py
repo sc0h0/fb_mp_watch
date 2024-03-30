@@ -68,7 +68,8 @@ def is_description_heading_about_furniture(description, heading):
         ]
     )
 
-    print(f"ChatGPT question: {messages}")
+    for message in messages:
+        print(f"{message['role'].capitalize()} message: {message['content']}")
 
     # Extract and process the answer
     answer = completion.choices[0].message.content.strip().lower()
