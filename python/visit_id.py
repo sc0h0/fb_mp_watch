@@ -175,6 +175,8 @@ def visit_ids_with_playwright(item_ids):
                 heading_collecting = False  # Flag to indicate whether we're currently collecting text
                 text_after_see_more_before_details = []  # List to hold the desired text
 
+                print(soup)
+
                 for text_node in soup.find_all(text=True):
                     # If we encounter "Details", stop collecting
                     if "Details" in text_node:
