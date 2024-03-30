@@ -6,7 +6,24 @@ import pytz
 import glob
 from bs4 import BeautifulSoup
 
+screenshot_mode = True
+
 tz_aet = pytz.timezone('Australia/Sydney')  # 'Australia/Sydney' will automatically handle AEST/AEDT
+
+# Determine the base path relative to the script's location
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+# Define the path to the 'data' directory
+extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
+visited_folder_path = os.path.join(base_path, '..', 'data/visited_id')
+matched_folder_path = os.path.join(base_path, '..', 'data/matched_id')
+screenshot_path = os.path.join(base_path, '..', 'screenshots')
+
+eid_csv_files = glob.glob(os.path.join(extracted_folder_path, '*.csv'))
+vid_csv_files = glob.glob(os.path.join(visited_folder_path, '*.csv'))
+mid_csv_files = glob.glob(os.path.join(matched_folder_path, '*.csv'))
+
+
 
 
 def details_are_exclude(details_collected_text):
@@ -66,7 +83,8 @@ def visit_ids_with_playwright(item_ids):
 
         page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
         page.wait_for_timeout(3000)
-        page.screenshot(path='visit_id_temp_page.png')
+        if screenshot_mode:
+            page.screenshot(path=os.path.join(screenshot_path, 'visit_id_temp_page.png'))
 
         
         login_prompt = page.query_selector("text=/log in to continue/i")
@@ -75,7 +93,9 @@ def visit_ids_with_playwright(item_ids):
         login_button = page.query_selector('button[name="login"]')
         login_button.click()
         page.wait_for_timeout(3000)
-        page.screenshot(path='visit_id_clicked_login.png')
+        if screenshot_mode:
+            page.screenshot(path=os.path.join(screenshot_path, 'visit_id_clicked_login.png'))
+            
         
         # initialise a log of visited ids
         visited_ids = set()
@@ -91,7 +111,8 @@ def visit_ids_with_playwright(item_ids):
 
             # Navigate to the URL
             page.goto(url)
-            page.screenshot(path='visit_id_' + item_id + '.png')
+            if screenshot_mode:
+                page.screenshot(path=os.path.join(screenshot_path, 'visit_id_' + item_id + '.png'))
             
             # Selector for the button with aria-label="Close"
             close_button_selector = '[aria-label="Close"]'
@@ -190,17 +211,7 @@ def visit_ids_with_playwright(item_ids):
 
 
 
-# Determine the base path relative to the script's location
-base_path = os.path.dirname(os.path.abspath(__file__))
 
-# Define the path to the 'data' directory
-extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
-visited_folder_path = os.path.join(base_path, '..', 'data/visited_id')
-matched_folder_path = os.path.join(base_path, '..', 'data/matched_id')
-
-eid_csv_files = glob.glob(os.path.join(extracted_folder_path, '*.csv'))
-vid_csv_files = glob.glob(os.path.join(visited_folder_path, '*.csv'))
-mid_csv_files = glob.glob(os.path.join(matched_folder_path, '*.csv'))
 
 if eid_csv_files:
     # Sort the files by their file name with the most recent first
