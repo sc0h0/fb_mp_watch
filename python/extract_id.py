@@ -11,12 +11,11 @@ fb_password = os.environ['FB_PASSWORD']
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.info("Script started successfully.")
 
-if os.name == 'posix':
-    # assume github if unix
-    extracted_folder_path = 'data/extracted_id'
-elif os.name == 'nt':
-    base_path = os.path.dirname(os.path.abspath(__file__))
-    extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
+# Determine the base path relative to the script's location
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+# Define the path to the 'data' directory
+extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
 
 logging.info("Extracted Folder Path: %s", extracted_folder_path)
 
