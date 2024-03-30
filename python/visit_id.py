@@ -6,7 +6,8 @@ import pytz
 import glob
 from bs4 import BeautifulSoup
 
-screenshot_mode = True
+screenshot_mode = False
+print_mode = False
 
 tz_aet = pytz.timezone('Australia/Sydney')  # 'Australia/Sydney' will automatically handle AEST/AEDT
 
@@ -68,12 +69,14 @@ def is_description_heading_about_furniture(description, heading):
         ]
     )
 
-    print(f"Description: {description}")
-    print(f"Heading: {heading}")
+    if print_mode:
+        print(f"Description: {description}")
+        print(f"Heading: {heading}")
 
     # Extract and process the answer
     answer = completion.choices[0].message.content.strip().lower()
-    print(f"ChatGPT answer: {answer}")
+    if print_mode:
+        print(f"ChatGPT answer: {answer}")
     return "yes" in answer
 
 
@@ -125,8 +128,6 @@ def visit_ids_with_playwright(item_ids):
             except TimeoutError:
                 # If the close button doesn't appear within 5 seconds, this block is executed
                 print("Close button not found within 5 seconds, continuing with the script.")
-                # No need to call `pass` explicitly, but you can if you prefer for readability
-                # pass
                 
             # wait for safe
             page.wait_for_timeout(2000)
@@ -192,7 +193,8 @@ def visit_ids_with_playwright(item_ids):
 
                 # Join the collected text
                 heading_collected_text = ' '.join(collected_text_between)
-                print(f"This is the heading_collected_text: {heading_collected_text}")
+                if print_mode:
+                    print(f"This is the heading_collected_text: {heading_collected_text}")
                 
                 # if exclude comes back false then it makes sense to use api credits to check if furniture
                 if details_are_exclude(details_collected_text) == False and heading_details_keyword(details_collected_text, heading_collected_text) == True:
