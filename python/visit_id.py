@@ -156,7 +156,7 @@ def visit_ids_with_playwright(item_ids):
             if soup.find(string=lambda text: "Seller information" in text):
 
                 # Iterate through all text nodes in the document
-                for text_node in soup.find_all(text=True):
+                for text_node in soup.find_all(string=True):
                     # If we encounter "Seller information", stop collecting and don't include this text
                     if "Seller information" in text_node:
                         break  # Exit the loop before adding "Seller information" to text_between
@@ -177,7 +177,7 @@ def visit_ids_with_playwright(item_ids):
                 collected_text_between = []  # List to hold all text collected between "Buy-and-sell groups" and "Listed"
 
                 # Iterate through all text nodes in the document
-                for text_node in soup.find_all(text=True):
+                for text_node in soup.find_all(string=True):
                     # Start collecting when "Buy-and-sell groups" is found
                     if "Buy-and-sell groups" in text_node:
                         heading_collecting = True
