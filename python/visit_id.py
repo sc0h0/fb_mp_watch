@@ -171,27 +171,22 @@ def visit_ids_with_playwright(item_ids):
                 details_collected_text = ' '.join(details_text_between)
                 
 
-                ## capture the text before details ##
-                heading_collecting = False  # Flag to indicate whether we're currently collecting text
-                text_after_see_more_before_details = []  # List to hold the desired text
-
-                print(soup)
-
+                # Initialize variables
+                heading_collecting = True  # Start collecting text immediately
+                collected_text_before_listed = []  # List to hold all text collected before "Listed"
+                
+                # Iterate through all text nodes in the document
                 for text_node in soup.find_all(text=True):
-                    # If we encounter "Details", stop collecting
-                    if "Details" in text_node:
-                        break
-
+                    # Check if the current text node contains "Listed"
+                    if "Listed" in text_node and heading_collecting:
+                        break  # Stop collecting if "Listed" is found
+                
                     if heading_collecting:
-                        text_after_see_more_before_details.append(text_node.strip())
-                    
-                    # Start collecting after encountering "See more"
-                    if "See more" in text_node:
-                        heading_collecting = True
-                        text_after_see_more_before_details = []  # Reset the list to exclude text before "See more"
+                        # Add the text to our list, stripping any leading/trailing whitespace
+                        collected_text_before_listed.append(text_node.strip())
 
                 # Join the collected text
-                heading_collected_text = ' '.join(text_after_see_more_before_details)
+                heading_collected_text = ' '.join(collected_text_before_listed)
                 print(f"This is the heading_collected_text: {heading_collected_text}")
                 
                 # if exclude comes back false then it makes sense to use api credits to check if furniture
