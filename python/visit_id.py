@@ -68,8 +68,8 @@ def is_description_heading_about_furniture(description, heading):
         ]
     )
 
-    for message in messages:
-        print(f"{message['role'].capitalize()} message: {message['content']}")
+    print(f"Description: {description}")
+    print(f"Heading: {heading}")
 
     # Extract and process the answer
     answer = completion.choices[0].message.content.strip().lower()
