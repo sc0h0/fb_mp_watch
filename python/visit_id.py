@@ -172,22 +172,27 @@ def visit_ids_with_playwright(item_ids):
                 
 
                 # Initialize variables
-                heading_collecting = True  # Start collecting text immediately
-                collected_text_before_listed = []  # List to hold all text collected before "Listed"
-                
+                heading_collecting = False  # Don't start collecting text immediately
+                collected_text_between = []  # List to hold all text collected between "Buy-and-sell groups" and "Listed"
+
                 # Iterate through all text nodes in the document
                 for text_node in soup.find_all(text=True):
-                    # Check if the current text node contains "Listed"
+                    # Start collecting when "Buy-and-sell groups" is found
+                    if "Buy-and-sell groups" in text_node:
+                        heading_collecting = True
+                        continue  # Skip the text node that contains "Buy-and-sell groups"
+                    
+                    # Check if the current text node contains "Listed" and we are currently collecting
                     if "Listed" in text_node and heading_collecting:
                         break  # Stop collecting if "Listed" is found
-                
+
                     if heading_collecting:
                         # Add the text to our list, stripping any leading/trailing whitespace
-                        collected_text_before_listed.append(text_node.strip())
+                        collected_text_between.append(text_node.strip())
 
                 # Join the collected text
-                heading_collected_text = ' '.join(collected_text_before_listed)
-                #print(f"This is the heading_collected_text: {heading_collected_text}")
+                heading_collected_text = ' '.join(collected_text_between)
+                print(f"This is the heading_collected_text: {heading_collected_text}")
                 
                 # if exclude comes back false then it makes sense to use api credits to check if furniture
                 if details_are_exclude(details_collected_text) == False and heading_details_keyword(details_collected_text, heading_collected_text) == True:
