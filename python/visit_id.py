@@ -30,12 +30,9 @@ mid_csv_files = glob.glob(os.path.join(matched_folder_path, '*.csv'))
 def details_are_exclude(details_collected_text):
     # Convert the collected text to lowercase for case-insensitive comparison
     text_lower = details_collected_text.lower()
-
+    keywords = ['grange rd', 'grange road', 'near grange', 'grange style', 'grange-style']
     # Check if the lowercase text contains
-    if 'grange rd' in text_lower or 'grange road' in text_lower or 'near grange' in text_lower:
-        return True   
-    else:
-        return False   
+    return any(keyword in text for keyword in keywords)
     
 def heading_details_keyword(details_collected_text, title_collected_text):
     text_lower = details_collected_text.lower()
