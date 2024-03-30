@@ -51,8 +51,11 @@ def is_description_heading_about_furniture(description, heading):
         ]
     )
 
+    print(f"ChatGPT question: {completion}")
+
     # Extract and process the answer
     answer = completion.choices[0].message.content.strip().lower()
+    print(f"ChatGPT answer: {answer}")
     return "yes" in answer
 
 
