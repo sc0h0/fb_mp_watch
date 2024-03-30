@@ -187,7 +187,7 @@ def visit_ids_with_playwright(item_ids):
 
                 # Join the collected text
                 heading_collected_text = ' '.join(collected_text_before_listed)
-                print(f"This is the heading_collected_text: {heading_collected_text}")
+                #print(f"This is the heading_collected_text: {heading_collected_text}")
                 
                 # if exclude comes back false then it makes sense to use api credits to check if furniture
                 if details_are_exclude(details_collected_text) == False and heading_details_keyword(details_collected_text, heading_collected_text) == True:
