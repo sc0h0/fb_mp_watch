@@ -66,12 +66,16 @@ def visit_ids_with_playwright(item_ids):
 
         page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
         page.wait_for_timeout(3000)
+        page.screenshot(path='visit_id_temp_page.png')
+
+        
         login_prompt = page.query_selector("text=/log in to continue/i")
         page.fill('input#email', os.environ['FB_EMAIL'])  # Using the ID selector for the email input field
         page.fill('input#pass', os.environ['FB_PASSWORD'])  # Using the ID selector for the password input field
         login_button = page.query_selector('button[name="login"]')
         login_button.click()
         page.wait_for_timeout(3000)
+        page.screenshot(path='visit_id_clicked_login.png')
         
         # initialise a log of visited ids
         visited_ids = set()
@@ -87,6 +91,7 @@ def visit_ids_with_playwright(item_ids):
 
             # Navigate to the URL
             page.goto(url)
+            page.screenshot(path='visit_id_' + item_id + '.png')
             
             # Selector for the button with aria-label="Close"
             close_button_selector = '[aria-label="Close"]'
