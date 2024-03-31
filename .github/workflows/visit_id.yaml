@@ -36,10 +36,5 @@ jobs:
       # Publish results to GitHub (assuming sc0h0/publish-to-github-action is a custom action you have access to)
       - name: Publish Results
         uses: sc0h0/publish-to-github-action@master
-        with:
-          # Pass any required parameters for sc0h0/publish-to-github-action here
-          # For example, if you need to specify a file or message:
-          # file_path: 'path/to/result/file'
-          # message: 'Publishing results'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub for authentication
