@@ -15,7 +15,7 @@ jobs:
           python-version: '3.x'
 
       - name: Send Self Test Email
-        run: python send_test_email.py
+        run: python python/test_email.py
         env:
           MAIL_APP_PW: ${{ secrets.MAIL_APP_PW }}
           MAIL_SEND_FROM: ${{ secrets.MAIL_SEND_FROM }}
