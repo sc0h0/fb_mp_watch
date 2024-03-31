@@ -23,7 +23,7 @@ def send_alert_email(item_id):
     <html>
       <body>
         <p>Hi,<br>
-           Check out this Marketplace item: <a href="https://www.facebook.com/marketplace/item/{item_id}">Item Link</a>
+           Check out this Grange Marketplace item: <a href="https://www.facebook.com/marketplace/item/{item_id}">Item Link</a>
         </p>
       </body>
     </html>
