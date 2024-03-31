@@ -6,8 +6,8 @@ import pytz
 import glob
 from bs4 import BeautifulSoup
 
-from test_email import send_test_email
-send_test_email()
+from alert import send_alert_email
+send_alert_email('321421220591645')
 
 screenshot_mode = False
 print_mode = False
