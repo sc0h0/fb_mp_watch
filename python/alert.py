@@ -7,21 +7,16 @@ def send_alert_email(item_id):
     # Environment variables for email credentials and addresses
     mail_email = os.getenv('MAIL_SEND_FROM')  # Your email address
     mail_password = os.getenv('MAIL_APP_PW')  # Your email app password
-    receiver_email = os.getenv('MAIL_SEND_TO')  # Where you want to receive the alert
-
-    if not all([mail_email, mail_password, receiver_email]):
-        print("One or more environment variables are missing.")
-        return
 
     # SMTP server configuration
     smtp_server = "smtp.fastmail.com"
-    port = 587  # TLS port
+    port = 587  # TLS port; use 465 for SSL
 
     # Create the email message
     message = MIMEMultipart("alternative")
     message["Subject"] = "Marketplace Item Alert"
     message["From"] = mail_email
-    message["To"] = receiver_email  # Ensure this is a single, valid email address
+    message["To"] = mail_email  # Sending to self for testing; replace with actual recipient if needed
 
     # Email body - HTML version
     html = f"""\
@@ -34,21 +29,21 @@ def send_alert_email(item_id):
     </html>
     """
 
-    # Attach the HTML part
-    message.attach(MIMEText(html, "html"))
+    # Turn the HTML into a MIMEText object
+    part = MIMEText(html, "html")
+    message.attach(part)
 
-    # Initialize the server variable
-    server = None
-
-    # Attempt to send the email
+    # Send the email
     try:
         server = smtplib.SMTP(smtp_server, port)
         server.starttls()  # Secure the connection
         server.login(mail_email, mail_password)
-        server.sendmail(mail_email, [receiver_email], message.as_string())  # Ensure receiver_email is a list if multiple
+        server.sendmail(mail_email, mail_email, message.as_string())  # For alert, you may want to send it to a different email
         print("Alert email sent successfully!")
     except Exception as e:
         print(f"Failed to send alert email: {e}")
     finally:
-        if server:
-            server.quit()
+        server.quit()
+
+# To send an alert, call send_alert_email with a specific item_id, for example:
+# send_alert_email('123456789012345')
