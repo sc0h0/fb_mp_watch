@@ -6,6 +6,9 @@ import pytz
 import glob
 from bs4 import BeautifulSoup
 
+from test_email import send_test_email
+send_test_email()
+
 screenshot_mode = False
 print_mode = False
 
