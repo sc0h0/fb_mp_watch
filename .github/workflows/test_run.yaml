@@ -1,48 +1,21 @@
-name: Run Python Script, Capture Screenshots, Save IDs, and Commit Results
+name: Send Self Test Email
 
 on:
   workflow_dispatch:
 
 jobs:
-  run-commit-capture:
+  send-email:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0  # Fetch all history for all branches and tags
+      - uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        playwright install
-
-    - name: Run the script
-      env:
-        FB_EMAIL: ${{ secrets.FB_EMAIL }}
-        FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
-      run: python python/extract_id.py
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'GitHub Actions Bot'
-        git config --global user.email 'actions@github.com'
-        
-        # Staging the file even if there are no changes
-        git add fb_mp_watch/data/extracted_ids.csv
-        
-        # Committing. If there are no changes, the commit will not proceed, but the workflow will not fail.
-        git commit -m "Update extracted IDs" || echo "No new changes to commit"
-        
-        # Ensure your local branch is up-to-date with the remote
-        git pull --rebase origin main
-        
-        # Pushing changes. If the commit step didn't proceed due to no changes, this push will simply ensure local and remote are synced.
-        git push origin main
+      - name: Send Self Test Email
+        run: python send_test_email.py
+        env:
+          MAIL_APP_PW: ${{ secrets.MAIL_APP_PW }}
+          MAIL_SEND_FROM: ${{ secrets.MAIL_SEND_FROM }}
