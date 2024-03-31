@@ -2,3 +2,4 @@ playwright
 pytz
 openai
 bs4
+smtplib
