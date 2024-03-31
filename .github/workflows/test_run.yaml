@@ -1,4 +1,4 @@
-name: Send Self Test Email
+name: test_run
 
 on:
   workflow_dispatch:
