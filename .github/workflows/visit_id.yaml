@@ -32,6 +32,8 @@ jobs:
           FB_EMAIL: ${{ secrets.FB_EMAIL }}
           FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
           CHATGPT_API: ${{ secrets.CHATGPT_API }}
+          MAIL_SEND_FROM: ${{ secrets.MAIL_SEND_FROM }}
+          MAIL_APP_PW: ${{ secrets.MAIL_APP_PW }}
 
       # Publish results to GitHub (assuming sc0h0/publish-to-github-action is a custom action you have access to)
       - name: Publish Results
