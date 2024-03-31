@@ -1,5 +1,4 @@
 playwright
 pytz
-openai
-bs4
-smtplib
+openai==1.14.3
+bs4==0.0.2
