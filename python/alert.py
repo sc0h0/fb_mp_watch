@@ -10,7 +10,7 @@ def send_alert_email(item_id):
     receiver_email = os.getenv('MAIL_SEND_TO')  # Where you want to receive the alert
 
     # SMTP server configuration
-    smtp_server = "smtp.yourprovider.com"  # Change this to your email provider's SMTP server
+    smtp_server = "smtp.fastmail.com"  # Change this to your email provider's SMTP server
     port = 587  # Most providers use port 587 for TLS
 
     # Create the email message
