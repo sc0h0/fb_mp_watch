@@ -7,7 +7,7 @@ import glob
 from bs4 import BeautifulSoup
 
 from alert import send_alert_email
-send_alert_email('321421220591645')
+
 
 screenshot_mode = False
 print_mode = False
@@ -200,6 +200,7 @@ def visit_ids_with_playwright(item_ids):
                 if details_are_exclude(details_collected_text) == False and heading_details_keyword(details_collected_text, heading_collected_text) == True:
                     if is_description_heading_about_furniture(details_collected_text, heading_collected_text) == True:
                         print("This is grange furniture")
+                        send_alert_email(item_id)
                         matched_ids.add(item_id)
                         
             # add the visited id to the set
