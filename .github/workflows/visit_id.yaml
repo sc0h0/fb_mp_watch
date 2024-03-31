@@ -2,37 +2,44 @@ name: visit_id
 
 on:
   schedule:
-    - cron:  '0 2/4 * * *' # At 2am, 6am etc
-  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+    - cron: '0 */4 * * *'  # At 2am, 6am, 10am, etc.
+  workflow_dispatch:  # Allows manual triggering from the Actions tab
 
 jobs:
   run-script:
     name: Execute Python Script
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2  # Check out your repository
 
-      # Setup Python environment
+      # Setup the Python environment
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8' # Specify the Python version you need
+          python-version: '3.8'  # Specify the Python version
 
       # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          playwright install
+          playwright install  # Install Playwright
 
-      - name: Run Python Script
+      # Execute your Python script
+      - name: Run visit_id.py
         run: python python/visit_id.py
         env:
           FB_EMAIL: ${{ secrets.FB_EMAIL }}
           FB_PASSWORD: ${{ secrets.FB_PASSWORD }}
           CHATGPT_API: ${{ secrets.CHATGPT_API }}
 
-      # If you need to publish the results to GitHub
-      - uses: sc0h0/publish-to-github-action@master
+      # Publish results to GitHub (assuming sc0h0/publish-to-github-action is a custom action you have access to)
+      - name: Publish Results
+        uses: sc0h0/publish-to-github-action@master
+        with:
+          # Pass any required parameters for sc0h0/publish-to-github-action here
+          # For example, if you need to specify a file or message:
+          # file_path: 'path/to/result/file'
+          # message: 'Publishing results'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub for authentication
