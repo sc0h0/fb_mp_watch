@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 from alert import send_alert_email
 
 
-screenshot_mode = True
-print_mode = True
+screenshot_mode = False
+print_mode = False
 
 tz_aet = pytz.timezone('Australia/Sydney')  # 'Australia/Sydney' will automatically handle AEST/AEDT
 
