@@ -227,6 +227,8 @@ if eid_csv_files:
     # The first file in the list now has the latest timestamp
     eid_latest_file = sorted_eid_csv_files[0]
 
+    print('The latest extracted ID file is: ' + eid_latest_file)
+
     # Open and read the latest CSV file
     with open(eid_latest_file, 'r', encoding='utf-8') as eid_file:
         # Read IDs into a set
