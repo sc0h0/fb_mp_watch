@@ -57,7 +57,7 @@ with sync_playwright() as p:
     if matched_ids:
         tz_aet = pytz.timezone('Australia/Sydney')
         now = datetime.datetime.now(tz_aet)  # Ensure 'now' is defined and captures the current time
-        formatted_date = now.strftime("%Y-%d-%m-%H-%M-%S")
+        formatted_date = now.strftime("%Y-%m-%d-%H-%M-%S")
         file_name = os.path.join(extracted_folder_path, f"{formatted_date}_extracted_ids.csv")
         with open(file_name, 'w') as csvfile:  # Using 'w' to overwrite any existing file or 'a' to append if that's the intention
             for id in matched_ids:
