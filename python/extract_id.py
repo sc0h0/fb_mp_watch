@@ -5,7 +5,39 @@ import os
 import pytz
 import logging
 
+# for proxy
+import requests
+import re
+import random
+from bs4 import BeautifulSoup
+
 screenshot_mode = False
+
+
+def fetch_proxies():
+    proxies = []
+
+    # Fetch proxies from spys.me
+    response = requests.get("https://spys.me/proxy.txt")
+    proxies += re.findall(r"[0-9]+(?:\.[0-9]+){3}:[0-9]+", response.text)
+
+    # Fetch proxies from free-proxy-list.net
+    response = requests.get("https://free-proxy-list.net/")
+    soup = BeautifulSoup(response.content, 'html.parser')
+    for row in soup.select("table tbody tr"):
+        tds = row.find_all('td')
+        if tds and tds[4].text.strip() == 'elite proxy':  # Filtering for elite proxies
+            ip = tds[0].text.strip()
+            port = tds[1].text.strip()
+            proxies.append(f"{ip}:{port}")
+
+    return proxies
+
+# Fetch proxies and select one randomly
+proxies = fetch_proxies()
+if not proxies:
+    raise ValueError("No proxies available")
+proxy = random.choice(proxies)
 
 fb_email = os.environ['FB_EMAIL']
 fb_password = os.environ['FB_PASSWORD']
@@ -24,14 +56,15 @@ logging.info("Extracted Folder Path: %s", extracted_folder_path)
 
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True, slow_mo=1000)
+    proxy_server = f"http://{proxy}"  # assuming HTTP proxies
+    browser = p.chromium.launch(headless=True, slow_mo=1000, proxy={"server": proxy_server})
     page = browser.new_page()
     
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
     # wait some time for page to load
     page.wait_for_timeout(3000)
     
-    login_prompt = page.query_selector("text=/log in to continue/i")
+    """login_prompt = page.query_selector("text=/log in to continue/i")
     page.fill('input#email', fb_email)  # Using the ID selector for the email input field
     page.fill('input#pass', fb_password)  # Using the ID selector for the password input field
 
@@ -39,9 +72,11 @@ with sync_playwright() as p:
     login_button = page.query_selector('button[name="login"]')
     login_button.click()
     page.wait_for_timeout(3000)
+    
     if screenshot_mode:
         page.screenshot(path=os.path.join(screenshot_path, 'extract_id_post_click.png'))
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
+    """
 
     if screenshot_mode:
         page.screenshot(path=os.path.join(screenshot_path, 'extract_id_post_login.png'))
