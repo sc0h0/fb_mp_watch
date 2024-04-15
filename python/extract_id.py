@@ -5,7 +5,7 @@ import os
 import pytz
 import logging
 
-screenshot_mode = True
+screenshot_mode = False
 
 fb_email = os.environ['FB_EMAIL']
 fb_password = os.environ['FB_PASSWORD']
@@ -34,8 +34,7 @@ with sync_playwright() as p:
     login_prompt = page.query_selector("text=/log in to continue/i")
     page.fill('input#email', fb_email)  # Using the ID selector for the email input field
     page.fill('input#pass', fb_password)  # Using the ID selector for the password input field
-    if screenshot_mode:
-        page.screenshot(path=os.path.join(screenshot_path, 'extract_id_pre_login.png'))
+
     page.wait_for_timeout(3000)
     login_button = page.query_selector('button[name="login"]')
     login_button.click()
