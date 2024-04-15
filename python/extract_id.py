@@ -40,6 +40,8 @@ with sync_playwright() as p:
     login_button = page.query_selector('button[name="login"]')
     login_button.click()
     page.wait_for_timeout(3000)
+    if screenshot_mode:
+        page.screenshot(path=os.path.join(screenshot_path, 'extract_id_post_click.png'))
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
 
     if screenshot_mode:
