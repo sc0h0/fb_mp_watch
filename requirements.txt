@@ -2,3 +2,5 @@ playwright==1.42.0
 pytz==2024.1
 openai==1.14.3
 bs4==0.0.2
+requests
+BeautifulSoup
