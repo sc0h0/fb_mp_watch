@@ -5,6 +5,8 @@ import os
 import pytz
 import logging
 
+screenshot_mode = True
+
 fb_email = os.environ['FB_EMAIL']
 fb_password = os.environ['FB_PASSWORD']
 
@@ -13,6 +15,7 @@ logging.info("Script started successfully.")
 
 # Determine the base path relative to the script's location
 base_path = os.path.dirname(os.path.abspath(__file__))
+screenshot_path = os.path.join(base_path, '..', 'screenshots')
 
 # Define the path to the 'data' directory
 extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
@@ -34,6 +37,9 @@ with sync_playwright() as p:
     login_button.click()
     page.wait_for_timeout(3000)
     page.goto('https://www.facebook.com/marketplace/melbourne/search?daysSinceListed=1&query=grange')
+
+    if screenshot_mode:
+        page.screenshot(path=os.path.join(screenshot_path, 'extract_id_post_login.png'))
     
     # Regular expression to match the desired URL pattern
     url_pattern = re.compile(r'/marketplace/item/(\d+)')
