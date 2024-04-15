@@ -36,6 +36,7 @@ with sync_playwright() as p:
     page.fill('input#pass', fb_password)  # Using the ID selector for the password input field
     if screenshot_mode:
         page.screenshot(path=os.path.join(screenshot_path, 'extract_id_pre_login.png'))
+    page.wait_for_timeout(3000)
     login_button = page.query_selector('button[name="login"]')
     login_button.click()
     page.wait_for_timeout(3000)
