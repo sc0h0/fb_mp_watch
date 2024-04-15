@@ -14,7 +14,7 @@ extracted_folder_path = os.path.join(base_path, '..', 'data/extracted_id')
 def run(playwright):
     chromium = playwright.chromium
     # Set up the proxy with authentication using the specified details
-    browser = chromium.launch(headless=False, proxy={
+    browser = chromium.launch(headless=True, proxy={
         "server": "http://ultra.marsproxies.com:44443",  # Proxy server URL and port
         "username": os.environ['FB_EMAIL'],                       # Proxy username
         "password": os.environ['FB_PASSWORD']            # Proxy password
